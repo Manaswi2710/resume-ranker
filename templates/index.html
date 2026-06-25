@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Ranker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 26px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+
+        p.subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 160px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            resize: vertical;
+            outline: none;
+            transition: border 0.2s;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        textarea:focus {
+            border-color: #4f46e5;
+        }
+
+        .upload-area {
+            margin-top: 24px;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px dashed #4f46e5;
+            border-radius: 8px;
+            background: #f5f3ff;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 6px;
+        }
+
+        button {
+            margin-top: 28px;
+            width: 100%;
+            padding: 14px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #4338ca;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Resume Ranker</h1>
+        <p class="subtitle">Paste a Job Description and upload resumes to rank candidates by match score.</p>
+
+        <!-- form submits to /rank route in app.py -->
+        <form action="/rank" method="POST" enctype="multipart/form-data">
+
+            <!-- JD input -->
+            <label for="jd_text">Job Description</label>
+            <textarea 
+                name="jd_text" 
+                id="jd_text" 
+                placeholder="Paste the job description here...">
+            </textarea>
+
+            <!-- Resume upload -->
+            <div class="upload-area">
+                <label for="resumes">Upload Resumes (PDF only)</label>
+                <input 
+                    type="file" 
+                    name="resumes" 
+                    id="resumes" 
+                    accept=".pdf" 
+                    multiple>
+                <!-- multiple allows selecting more than 1 file -->
+                <p class="hint">You can select multiple PDF files at once.</p>
+            </div>
+
+            <button type="submit">Rank Resumes →</button>
+
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking Results</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 700px;
+        }
+
+        h1 {
+            font-size: 26px;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+
+        p.subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+
+        thead {
+            background: #4f46e5;
+            color: white;
+        }
+
+        thead th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: background 0.15s;
+        }
+
+        tbody tr:hover {
+            background: #f5f3ff;
+        }
+
+        tbody td {
+            padding: 14px 16px;
+            color: #333;
+        }
+
+        /* rank 1 gets a gold highlight */
+        tbody tr:first-child {
+            background: #fffbeb;
+        }
+
+        tbody tr:first-child td:first-child::before {
+            content: "🥇 ";
+        }
+
+        .score-bar-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .score-bar {
+            height: 8px;
+            background: #4f46e5;
+            border-radius: 4px;
+            /* width is set inline via Jinja */
+        }
+
+        .score-text {
+            font-weight: 600;
+            color: #4f46e5;
+            white-space: nowrap;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 28px;
+            padding: 12px 24px;
+            background: #4f46e5;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #4338ca;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #999;
+            padding: 40px 0;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Ranking Results</h1>
+        <p class="subtitle">Candidates ranked by match score against the Job Description.</p>
+
+        {% if rankings %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Candidate</th>
+                    <th>Match Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Jinja loop — rankings list comes from app.py -->
+                {% for candidate in rankings %}
+                <tr>
+                    <td>{{ candidate.rank }}</td>
+                    <td>{{ candidate.candidate }}</td>
+                    <td>
+                        <div class="score-bar-wrapper">
+                            <!-- bar width = match score % -->
+                            <div class="score-bar" style="width: {{ candidate.score }}%;"></div>
+                            <span class="score-text">{{ candidate.score }}%</span>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+        <div class="no-results">
+            No results found. Please go back and try again.
+        </div>
+        {% endif %}
+
+        <!-- back button goes to home route -->
+        <a href="/" class="back-btn">← Rank Again</a>
+    </div>
+</body>
+</html>
