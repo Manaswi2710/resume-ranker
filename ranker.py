@@ -5,8 +5,8 @@ import spacy
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# Load SpaCy English model
-nlp = spacy.load("en_core_web_sm")
+# Create a lightweight English tokenizer (no model download needed)
+nlp = spacy.blank("en")
 
 
 # -------------------------------
@@ -41,18 +41,16 @@ def extract_all_resumes(pdf_paths):
 
 
 # -------------------------------
-# Preprocess text using SpaCy
+# Preprocess text
 # -------------------------------
 def preprocess(text):
 
     doc = nlp(text.lower())
 
     tokens = [
-        token.lemma_
+        token.text
         for token in doc
-        if not token.is_stop
-        and not token.is_punct
-        and token.is_alpha
+        if token.is_alpha
     ]
 
     return " ".join(tokens)
@@ -74,7 +72,7 @@ def rank_resumes(jd_text, resumes):
 
     corpus = [processed_jd] + processed_resumes
 
-    vectorizer = TfidfVectorizer()
+    vectorizer = TfidfVectorizer(stop_words="english")
 
     tfidf_matrix = vectorizer.fit_transform(corpus)
 
@@ -93,7 +91,6 @@ def rank_resumes(jd_text, resumes):
     ranked = []
 
     for rank, (name, score) in enumerate(results, start=1):
-
         ranked.append({
             "rank": rank,
             "candidate": name,
