@@ -111,10 +111,10 @@
         <h1>AI Resume Ranker</h1>
         <p class="subtitle">Paste a Job Description and upload resumes to rank candidates by match score.</p>
 
-        <!-- form submits to /rank route in app.py -->
+        
         <form action="/rank" method="POST" enctype="multipart/form-data">
 
-            <!-- JD input -->
+            
             <label for="jd_text">Job Description</label>
             <textarea 
                 name="jd_text" 
@@ -122,7 +122,7 @@
                 placeholder="Paste the job description here...">
             </textarea>
 
-            <!-- Resume upload -->
+            
             <div class="upload-area">
                 <label for="resumes">Upload Resumes (PDF only)</label>
                 <input 
@@ -131,7 +131,7 @@
                     id="resumes" 
                     accept=".pdf" 
                     multiple>
-                <!-- multiple allows selecting more than 1 file -->
+                
                 <p class="hint">You can select multiple PDF files at once.</p>
             </div>
 

@@ -2,8 +2,7 @@ from sentence_transformers import SentenceTransformer, util
 import pdfplumber
 import os
 
-# load pretrained model once globally
-# all-MiniLM-L6-v2 is lightweight, fast, and great for semantic similarity
+
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
 def extract_text_from_pdf(pdf_path):
@@ -28,14 +27,13 @@ def rank_resumes(jd_text, resumes):
     candidate_names = list(resumes.keys())
     resume_texts = list(resumes.values())
 
-    # generate embeddings — converts text into 384 dimensional vectors
-    # these vectors capture semantic meaning not just keywords
+   
     jd_embedding = model.encode(jd_text, convert_to_tensor=True)
     resume_embeddings = model.encode(resume_texts, convert_to_tensor=True)
 
-    # cosine similarity between JD and each resume
+   
     scores = util.cos_sim(jd_embedding, resume_embeddings)[0]
-    # scores are now in range 0-1, much more meaningful than TF-IDF
+    
 
     results = list(zip(candidate_names, scores.tolist()))
     results.sort(key=lambda x: x[1], reverse=True)
