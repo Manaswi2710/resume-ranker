@@ -1,0 +1,6 @@
+Flask
+pdfplumber
+scikit-learn
+pandas
+sentence-transformers
+torchgit add .
