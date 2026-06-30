@@ -1,7 +1,6 @@
 Flask
 gunicorn
 pdfplumber
+spacy
 scikit-learn
 pandas
-sentence-transformers
-torch
